@@ -1,0 +1,564 @@
+@import "tailwindcss";
+
+@theme {
+  --radius: 0.9rem;
+
+  /* Brand palette */
+  --color-navy-deep: oklch(19% 0.062 262);
+  --color-navy: oklch(28% 0.088 258);
+  --color-azure: oklch(55% 0.16 250);
+  --color-sky: oklch(75% 0.1 236);
+  --color-gold: oklch(78% 0.13 82);
+
+  /* Semantic surface tokens */
+  --color-background: oklch(98% 0.008 240);
+  --color-foreground: oklch(22% 0.05 258);
+  --color-card: oklch(100% 0 0);
+  --color-card-foreground: oklch(22% 0.05 258);
+  --color-popover: oklch(100% 0 0);
+  --color-popover-foreground: oklch(22% 0.05 258);
+  --color-primary: oklch(36% 0.13 258);
+  --color-primary-foreground: oklch(98.5% 0.01 240);
+  --color-secondary: oklch(94% 0.02 240);
+  --color-secondary-foreground: oklch(28% 0.088 258);
+  --color-muted: oklch(95% 0.014 240);
+  --color-muted-foreground: oklch(52% 0.035 254);
+  --color-accent: oklch(55% 0.16 250);
+  --color-accent-foreground: oklch(98.5% 0.01 240);
+  --color-destructive: oklch(55% 0.22 27);
+  --color-border: oklch(90% 0.018 245);
+  --color-input: oklch(90% 0.018 245);
+  --color-ring: oklch(55% 0.16 250);
+
+  --font-sans: Manrope, ui-sans-serif, system-ui, sans-serif;
+  --font-display: Sora, ui-sans-serif, system-ui, sans-serif;
+
+  --radius-2xl: 1.1rem;
+  --radius-3xl: 1.6rem;
+
+  --shadow-soft: 0 18px 40px -22px oklch(28% 0.088 258 / 0.55);
+  --shadow-lift: 0 28px 60px -26px oklch(28% 0.088 258 / 0.7);
+
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-line-wipe: line-wipe 0.95s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-sheen: sheen 3.2s ease-in-out infinite;
+
+  @keyframes fade-up {
+    0% {
+      opacity: 0;
+      transform: translateY(26px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes line-wipe {
+    0% {
+      transform: translateY(108%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes sheen {
+    0% {
+      opacity: 0.25;
+      transform: translateX(-120%) skewX(-18deg);
+    }
+    60%,
+    100% {
+      opacity: 0;
+      transform: translateX(220%) skewX(-18deg);
+    }
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-azure);
+    color: oklch(98% 0.01 240);
+  }
+}
+
+@utility surface-navy {
+  background-image: linear-gradient(
+    140deg,
+    var(--color-navy-deep),
+    var(--color-navy) 55%,
+    var(--color-azure)
+  );
+}
+
+@utility tile-gradient {
+  background-image: linear-gradient(150deg, oklch(33% 0.1 258), oklch(45% 0.14 248));
+}
+
+@utility tile-gradient-alt {
+  background-image: linear-gradient(150deg, oklch(45% 0.14 248), oklch(62% 0.12 236));
+}
+
+/* ---------------------------------------------------------------------- *
+ * Opening sequence — dark stage, emblem drops, ember-lit impact, cracks,
+ * tricolour highlight, camera push. Additive only; nothing here touches
+ * the page itself.
+ * ---------------------------------------------------------------------- */
+
+.intro-stage {
+  --emblem: min(52vw, 15rem);
+  --drop: -84vh;
+}
+
+@media (min-width: 640px) {
+  .intro-stage {
+    --emblem: min(34vw, 18rem);
+  }
+}
+
+/*
+ * Free fall, then settle — one animation, so the phases can't fight over
+ * `transform`. Under constant acceleration displacement goes as t², so the
+ * fall keyframes sit at drop x (1 - t²) rather than using a stock ease-in.
+ * The fall occupies the first 55.6% of the run (500ms of 900ms). A slight
+ * vertical stretch while travelling reads as speed; it squashes on contact.
+ */
+@keyframes intro-fall {
+  0% {
+    transform: translateY(var(--drop)) scale(0.96, 1.1);
+  }
+  13.9% {
+    transform: translateY(calc(var(--drop) * 0.9375)) scale(0.96, 1.1);
+  }
+  27.8% {
+    transform: translateY(calc(var(--drop) * 0.75)) scale(0.95, 1.12);
+  }
+  41.7% {
+    transform: translateY(calc(var(--drop) * 0.4375)) scale(0.97, 1.08);
+  }
+  /* Contact. A shield this heavy barely deforms — just enough to read. */
+  55.6% {
+    transform: translateY(0) scale(1.03, 0.965);
+  }
+  61% {
+    transform: translateY(-3.4%) scale(0.992, 1.012);
+  }
+  69% {
+    transform: translateY(0) scale(1.006, 0.992);
+  }
+  77% {
+    transform: translateY(-1.2%) scale(1);
+  }
+  86% {
+    transform: translateY(0) scale(1.002, 0.998);
+  }
+  93% {
+    transform: translateY(-0.4%) scale(1);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.intro-fall {
+  animation: intro-fall 900ms linear both;
+  transform-origin: bottom center;
+  will-change: transform;
+}
+
+/* Motion smear trailing the falling emblem, gone by contact. */
+@keyframes intro-trail {
+  0%,
+  45% {
+    opacity: 0.5;
+  }
+  55.6%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.intro-trail {
+  animation: intro-trail 900ms linear both;
+}
+
+/* The frame jolts on contact, then damps out. */
+@keyframes intro-shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  12% {
+    transform: translate3d(-6px, 4px, 0);
+  }
+  26% {
+    transform: translate3d(5px, -3px, 0);
+  }
+  40% {
+    transform: translate3d(-4px, 2px, 0);
+  }
+  55% {
+    transform: translate3d(3px, -2px, 0);
+  }
+  70% {
+    transform: translate3d(-2px, 1px, 0);
+  }
+  85% {
+    transform: translate3d(1px, 0, 0);
+  }
+}
+
+.intro-shake {
+  animation: intro-shake 360ms cubic-bezier(0.36, 0, 0.2, 1) both;
+  will-change: transform;
+}
+
+/*
+ * Fractures draw outward. Only stroke-dashoffset is animated here — a fully
+ * offset dash already hides the path, and animating opacity would override the
+ * per-path opacity attributes.
+ */
+@keyframes intro-crack {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.intro-crack {
+  animation: intro-crack 300ms cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+/* Ember sitting in the fracture, white-hot on impact and cooling away. */
+@keyframes intro-cool {
+  0% {
+    opacity: 0.85;
+  }
+  30% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0.04;
+  }
+}
+
+.intro-ember {
+  animation:
+    intro-crack 300ms cubic-bezier(0.2, 0.8, 0.3, 1) both,
+    intro-cool 1500ms ease-out both;
+}
+
+/* Beat 8: the fractures recede so the emblem stands alone. */
+@keyframes intro-crackfade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.intro-crackfade {
+  animation: intro-crackfade 620ms ease-in both;
+}
+
+/*
+ * Elements below are centred by `-translate-x-1/2 -translate-y-1/2`. Tailwind
+ * v4 emits those as the independent `translate` property, which composes with
+ * `transform` rather than being replaced by it — so these keyframes must not
+ * repeat the shift, or the element lands half its width off centre.
+ */
+@keyframes intro-contact {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.intro-contact {
+  animation: intro-contact 260ms ease-out both;
+}
+
+@keyframes intro-dust {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  14% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+.intro-dust {
+  animation: intro-dust 950ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes intro-debris {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(1);
+  }
+  8% {
+    opacity: var(--o);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(0.35);
+  }
+}
+
+.intro-debris {
+  animation: intro-debris var(--dur) cubic-bezier(0.22, 0.7, 0.3, 1) both;
+}
+
+/* Embers lifting off the fracture line. */
+@keyframes intro-spark {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(1);
+  }
+  12% {
+    opacity: var(--o);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(0.4);
+  }
+}
+
+.intro-spark {
+  animation: intro-spark var(--dur) cubic-bezier(0.3, 0.6, 0.4, 1) both;
+}
+
+/* Motes hanging in the air for the whole sequence. */
+@keyframes intro-mote {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  22%,
+  78% {
+    opacity: var(--o);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--mx), var(--my), 0);
+  }
+}
+
+.intro-mote {
+  animation: intro-mote var(--dur) linear infinite;
+}
+
+@keyframes intro-smoke {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate3d(4%, -3%, 0) scale(1.12);
+  }
+}
+
+.intro-smoke {
+  animation: intro-smoke var(--dur) ease-in-out infinite;
+}
+
+/* Beat 7 — saffron from the left, green from the right, white above. */
+@keyframes intro-streak-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-40%) scaleX(0.5);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(12%) scaleX(1);
+  }
+}
+
+@keyframes intro-streak-right {
+  0% {
+    opacity: 0;
+    transform: translateX(40%) scaleX(0.5);
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-12%) scaleX(1);
+  }
+}
+
+.intro-streak-left {
+  animation: intro-streak-left 900ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+.intro-streak-right {
+  animation: intro-streak-right 900ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+@keyframes intro-bloom {
+  0% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.45;
+  }
+}
+
+.intro-bloom {
+  animation: intro-bloom 900ms ease-out both;
+}
+
+@keyframes intro-landmark {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.16;
+  }
+}
+
+.intro-landmark {
+  animation: intro-landmark 800ms ease-out both;
+}
+
+/* Camera easing toward the emblem before the hand-off to the page. */
+@keyframes intro-push {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.13);
+  }
+}
+
+.intro-push {
+  animation: intro-push 1180ms cubic-bezier(0.4, 0, 0.6, 1) both;
+  will-change: transform;
+}
+
+@keyframes intro-floor {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.intro-floor {
+  animation: intro-floor 400ms ease-out both;
+}
+
+/* Scroll reveal — mirrors the original's data-visible driven transition */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animate-float,
+  .animate-marquee,
+  .animate-sheen {
+    animation: none !important;
+  }
+
+  /* The wipe must still land at its final position, not vanish. */
+  .animate-line-wipe {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  /* The intro is skipped outright, but neutralise it as a belt and braces. */
+  .intro-fall,
+  .intro-trail,
+  .intro-shake,
+  .intro-crack,
+  .intro-ember,
+  .intro-crackfade,
+  .intro-contact,
+  .intro-dust,
+  .intro-debris,
+  .intro-spark,
+  .intro-streak-left,
+  .intro-streak-right,
+  .intro-bloom,
+  .intro-landmark,
+  .intro-floor,
+  .intro-push {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
