@@ -499,7 +499,7 @@ function CommunityVideoPanel() {
     <div className="relative h-full w-full overflow-hidden bg-navy-deep">
       <video
         ref={videoRef}
-        src="/assets/sajjanar.mp4"
+        src="/assets/sajjanar2.mp4"
         preload="metadata"
         playsInline
         onPlay={() => setPlaying(true)}
