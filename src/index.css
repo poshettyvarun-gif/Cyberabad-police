@@ -44,6 +44,7 @@
   --animate-float: float 7s ease-in-out infinite;
   --animate-marquee: marquee 38s linear infinite;
   --animate-sheen: sheen 3.2s ease-in-out infinite;
+  --animate-footer-car: footer-car-drive 15s linear infinite;
 
   @keyframes fade-up {
     0% {
@@ -89,6 +90,18 @@
     100% {
       opacity: 0;
       transform: translateX(220%) skewX(-18deg);
+    }
+  }
+  /* `left` (not transform) so the run is measured against the footer bar's
+     own width via calc(100% + ...) — correct edge-to-edge travel at any
+     viewport width, and it leaves `transform` free for the separate
+     vertical-centring translate applied in the component. */
+  @keyframes footer-car-drive {
+    0% {
+      left: -34px;
+    }
+    100% {
+      left: calc(100% + 34px);
     }
   }
 }
