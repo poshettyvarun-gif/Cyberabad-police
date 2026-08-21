@@ -445,20 +445,4 @@ export const footerColumns: { heading: string; links: FooterLink[] }[] = [
       },
     ],
   },
-  {
-    heading: "DOWNLOADS",
-    links: [
-      {
-        label: "Annual Report 2025",
-        href: "https://hyderabadpolice.gov.in/assets/annual-reports/ANNUAL-REPORT-25.pdf",
-        external: true,
-      },
-      { label: "Police Stations", href: "/police-stations" },
-      { label: "Officer Directory", href: "/contact-directory" },
-      { label: "Acts & Rules", href: "https://hyderabadpolice.gov.in/acts_rules.html", external: true },
-      { label: "RTI Act", href: "https://hyderabadpolice.gov.in/rti_act.html", external: true },
-      { label: "Meeseva Services", href: "https://hyderabadpolice.gov.in/Meeseva.html", external: true },
-      { label: "CEIR", href: "https://www.ceir.gov.in/Home/index.jsp", external: true },
-    ],
-  },
 ];
