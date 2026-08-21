@@ -2,11 +2,24 @@
  * Deep-dive content for each wing, transcribed from the official site's
  * individual wing pages (law_order.html, traffic_branch.html,
  * cyber_crimes_hyderabad_police_station.html, detective_department.html,
- * SheTeam&Bharosa.html). Officer names/mobiles are deliberately NOT
- * repeated here — they already live in `contacts.ts` as the single source
- * of truth; each wing links out to a pre-filtered Officer Directory search
- * instead, so a posting change only needs updating in one place.
+ * SheTeam&Bharosa.html). Most officer names/mobiles are NOT repeated here —
+ * they already live in `contacts.ts` as the single source of truth; each
+ * wing links out to a pre-filtered Officer Directory search instead, so a
+ * posting change only needs updating in one place. `leadership` is the
+ * exception: it mirrors the wing page's own officer-with-photo layout, using
+ * the same real photos (or the official "no photo" silhouette for unnamed
+ * posts) published there.
  */
+
+export type WingLeader = {
+  name?: string;
+  designation: string;
+  /** Local copy of the official site's own officer photo (or its generic
+   *  silhouette for an unnamed post) — see public/assets/officers/. */
+  photo: string;
+  email?: string;
+  phones: string[];
+};
 
 export type WingDetail = {
   slug: string;
@@ -17,6 +30,8 @@ export type WingDetail = {
   /** Station/centre-specific address or phone/email not already covered by
    *  the Officer Directory. */
   contact?: string[];
+  /** Officer-with-photo cards, matching the official wing page's layout. */
+  leadership?: WingLeader[];
   /** Search term that finds this wing's officers in the Officer Directory. */
   directoryQuery: string;
 };
@@ -24,6 +39,21 @@ export type WingDetail = {
 export const wingDetails: WingDetail[] = [
   {
     slug: "law-order",
+    leadership: [
+      {
+        name: "Sri Tafseer Iqubal, IPS",
+        designation: "Addl. Commissioner of Police, Law & Order",
+        photo: "/assets/officers/tafseer-iqubal.png",
+        email: "addlcp-lo-hyd@tspolice.gov.in",
+        phones: ["23147718", "23147719"],
+      },
+      {
+        designation: "Jt. Commissioner of Police (L&O)",
+        photo: "/assets/officers/no-photo.png",
+        email: "jtcp-nrlo-hyd@tspolice.gov.in",
+        phones: ["23147742"],
+      },
+    ],
     structure: [
       "7 zones, each headed by a Deputy Commissioner of Police (DCP)",
       "26 divisions, headed by Assistant Commissioners of Police (ACP)",

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ExternalLink, MapPin } from "lucide-react";
+import { ExternalLink, Mail, MapPin, Phone } from "lucide-react";
 import { Reveal, SectionHeading } from "../components/Reveal";
 import { wings } from "../data/site";
 import { getWingDetail } from "../data/wingDetails";
@@ -46,6 +46,52 @@ export default function Wings() {
                       <p className="mt-1 text-sm text-muted-foreground">{wing.blurb}</p>
                     </div>
                   </div>
+
+                  {detail?.leadership && detail.leadership.length > 0 && (
+                    <div className="mt-6 grid gap-4 border-t border-border pt-6 sm:grid-cols-2">
+                      {detail.leadership.map((leader) => (
+                        <div
+                          key={leader.designation}
+                          className="flex items-center gap-4 rounded-xl border border-border bg-secondary/40 p-4"
+                        >
+                          <img
+                            src={leader.photo}
+                            alt=""
+                            aria-hidden="true"
+                            loading="lazy"
+                            className="h-16 w-16 shrink-0 rounded-full border border-border object-cover"
+                          />
+                          <div className="min-w-0">
+                            {leader.name && (
+                              <p className="truncate text-sm font-semibold text-foreground">{leader.name}</p>
+                            )}
+                            <p className="text-xs leading-snug text-muted-foreground">{leader.designation}</p>
+                            <div className="mt-1.5 flex flex-col gap-0.5">
+                              {leader.phones.map((phone) => (
+                                <a
+                                  key={phone}
+                                  href={`tel:${phone}`}
+                                  className="flex items-center gap-1.5 text-xs text-accent hover:underline"
+                                >
+                                  <Phone className="h-3 w-3 shrink-0" />
+                                  {phone}
+                                </a>
+                              ))}
+                              {leader.email && (
+                                <a
+                                  href={`mailto:${leader.email}`}
+                                  className="flex items-center gap-1.5 truncate text-xs text-accent hover:underline"
+                                >
+                                  <Mail className="h-3 w-3 shrink-0" />
+                                  {leader.email}
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   {detail && (detail.structure.length > 0 || detail.scope.length > 0) && (
                     <div className="mt-6 grid gap-6 border-t border-border pt-6 sm:grid-cols-2">
