@@ -40,7 +40,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/police-stations" element={<PoliceStations />} />
               <Route path="/contact-directory" element={<ContactDirectory />} />
-              <Route path="/wings" element={<Wings />} />
+              <Route path="/wings/:slug" element={<Wings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

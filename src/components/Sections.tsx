@@ -12,6 +12,9 @@ import {
   newsItems,
   wings,
 } from "../data/site";
+import { wingPages } from "../data/wingDetails";
+
+const wingsWithDetailPage = new Set(wingPages.map((w) => w.slug));
 
 export function EmergencyContacts() {
   return (
@@ -297,8 +300,8 @@ export function Wings() {
                 delay={(index % 3) * 80}
                 className="relative z-0 h-full hover:z-30"
               >
-                {wing.slug === "law-order" ? (
-                  <Link to="/wings" className={className}>
+                {wingsWithDetailPage.has(wing.slug) ? (
+                  <Link to={`/wings/${wing.slug}`} className={className}>
                     {content}
                   </Link>
                 ) : (

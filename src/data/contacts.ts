@@ -85,7 +85,7 @@ export const officers: Officer[] = [
     designation: "Jt. Commissioner of Police (Traffic)",
     category: "Joint Commissioners",
     jurisdiction: "Traffic",
-    phones: ["23240800", "27852602"],
+    phones: ["23240800", "27852663"],
     email: "jtcp-trf-hyd@tspolice.gov.in",
   }),
   officer({
