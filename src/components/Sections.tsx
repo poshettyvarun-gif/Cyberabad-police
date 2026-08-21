@@ -250,6 +250,46 @@ export function Wings() {
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {wings.map((wing, index) => {
             const Icon = wing.icon;
+            const className =
+              "group relative flex min-h-[130px] h-full w-full flex-col overflow-hidden rounded-xl border border-border bg-card p-4 text-left shadow-soft transition-all duration-500 ease-out hover:-translate-y-1.5 hover:scale-[1.015] hover:border-accent/50 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent";
+            const content = (
+              <>
+                <img
+                  src={wing.image}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                  className="pointer-events-none absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                {/* Keeps the copy clear on the left while the artwork reads
+                    on the right, where each image places its subject. */}
+                <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,oklch(1_0_0/0.94)_0%,oklch(1_0_0/0.78)_45%,oklch(1_0_0/0.12)_100%)]" />
+
+                <span className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-gradient-to-r from-transparent via-sky to-transparent transition-transform duration-500 group-hover:scale-x-100" />
+
+                <span className="pointer-events-none absolute -bottom-8 -right-8 h-24 w-24 rounded-full bg-sky/10 blur-2xl transition-all duration-700 group-hover:scale-150 group-hover:bg-sky/20" />
+
+                <span className="relative grid h-10 w-10 place-items-center rounded-lg border border-border bg-secondary/40 text-accent transition-all duration-500 group-hover:scale-105 group-hover:border-accent/50 group-hover:bg-accent/10">
+                  <Icon className="h-5 w-5 transition-transform duration-500 group-hover:rotate-3" />
+                </span>
+
+                <h3 className="relative mt-3 text-base font-semibold leading-tight text-foreground transition-colors duration-300 group-hover:text-accent">
+                  {wing.title}
+                </h3>
+
+                <p className="relative mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                  {wing.blurb}
+                </p>
+
+                <span className="relative mt-auto inline-flex items-center gap-2 pt-3 text-xs font-semibold text-accent">
+                  Explore
+
+                  <span className="grid h-6 w-6 place-items-center rounded-full border border-accent/20 bg-accent/5 transition-all duration-300 group-hover:border-accent/50 group-hover:bg-accent/10">
+                    <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </span>
+                </span>
+              </>
+            );
 
             return (
               <Reveal
@@ -257,45 +297,15 @@ export function Wings() {
                 delay={(index % 3) * 80}
                 className="relative z-0 h-full hover:z-30"
               >
-                <Link
-                  to={`/wings#${wing.slug}`}
-                  className="group relative flex min-h-[130px] h-full w-full flex-col overflow-hidden rounded-xl border border-border bg-card p-4 text-left shadow-soft transition-all duration-500 ease-out hover:-translate-y-1.5 hover:scale-[1.015] hover:border-accent/50 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-                >
-                  <img
-                    src={wing.image}
-                    alt=""
-                    aria-hidden="true"
-                    loading="lazy"
-                    className="pointer-events-none absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  {/* Keeps the copy clear on the left while the artwork reads
-                      on the right, where each image places its subject. */}
-                  <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,oklch(1_0_0/0.94)_0%,oklch(1_0_0/0.78)_45%,oklch(1_0_0/0.12)_100%)]" />
-
-                  <span className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-gradient-to-r from-transparent via-sky to-transparent transition-transform duration-500 group-hover:scale-x-100" />
-
-                  <span className="pointer-events-none absolute -bottom-8 -right-8 h-24 w-24 rounded-full bg-sky/10 blur-2xl transition-all duration-700 group-hover:scale-150 group-hover:bg-sky/20" />
-
-                  <span className="relative grid h-10 w-10 place-items-center rounded-lg border border-border bg-secondary/40 text-accent transition-all duration-500 group-hover:scale-105 group-hover:border-accent/50 group-hover:bg-accent/10">
-                    <Icon className="h-5 w-5 transition-transform duration-500 group-hover:rotate-3" />
-                  </span>
-
-                  <h3 className="relative mt-3 text-base font-semibold leading-tight text-foreground transition-colors duration-300 group-hover:text-accent">
-                    {wing.title}
-                  </h3>
-
-                  <p className="relative mt-1.5 text-xs leading-relaxed text-muted-foreground">
-                    {wing.blurb}
-                  </p>
-
-                  <span className="relative mt-auto inline-flex items-center gap-2 pt-3 text-xs font-semibold text-accent">
-                    Explore
-
-                    <span className="grid h-6 w-6 place-items-center rounded-full border border-accent/20 bg-accent/5 transition-all duration-300 group-hover:border-accent/50 group-hover:bg-accent/10">
-                      <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </span>
-                  </span>
-                </Link>
+                {wing.slug === "law-order" ? (
+                  <Link to="/wings" className={className}>
+                    {content}
+                  </Link>
+                ) : (
+                  <a href={wing.href} target="_blank" rel="noopener noreferrer" className={className}>
+                    {content}
+                  </a>
+                )}
               </Reveal>
             );
           })}
