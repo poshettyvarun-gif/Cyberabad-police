@@ -257,10 +257,8 @@ export function Wings() {
                 delay={(index % 3) * 80}
                 className="relative z-0 h-full hover:z-30"
               >
-                <a
-                  href={wing.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to={`/wings#${wing.slug}`}
                   className="group relative flex min-h-[130px] h-full w-full flex-col overflow-hidden rounded-xl border border-border bg-card p-4 text-left shadow-soft transition-all duration-500 ease-out hover:-translate-y-1.5 hover:scale-[1.015] hover:border-accent/50 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   <img
@@ -297,7 +295,7 @@ export function Wings() {
                       <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                     </span>
                   </span>
-                </a>
+                </Link>
               </Reveal>
             );
           })}

@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 // for them.
 const PoliceStations = lazy(() => import("./pages/PoliceStations"));
 const ContactDirectory = lazy(() => import("./pages/ContactDirectory"));
+const Wings = lazy(() => import("./pages/Wings"));
 
 export default function App() {
   /* The whole page fades up from transparent once React has mounted. */
@@ -39,6 +40,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/police-stations" element={<PoliceStations />} />
               <Route path="/contact-directory" element={<ContactDirectory />} />
+              <Route path="/wings" element={<Wings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

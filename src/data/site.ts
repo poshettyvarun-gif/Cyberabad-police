@@ -264,6 +264,7 @@ export const citizenServices: {
 ];
 
 export const wings: {
+  slug: string;
   title: string;
   blurb: string;
   icon: LucideIcon;
@@ -274,6 +275,7 @@ export const wings: {
   href: string;
 }[] = [
   {
+    slug: "law-order",
     title: "Law and Order",
     blurb: "Peace & public order across zones",
     icon: Scale,
@@ -281,6 +283,7 @@ export const wings: {
     href: "https://hyderabadpolice.gov.in/law_order.html",
   },
   {
+    slug: "traffic",
     title: "Traffic Wing",
     blurb: "Flow, enforcement & road safety",
     icon: TrafficCone,
@@ -288,6 +291,7 @@ export const wings: {
     href: "https://hyderabadpolice.gov.in/traffic_branch.html",
   },
   {
+    slug: "cyber-crime",
     title: "Cyber Crime",
     blurb: "Online fraud & digital forensics",
     icon: Laptop,
@@ -295,6 +299,7 @@ export const wings: {
     href: "https://hyderabadpolice.gov.in/cyber_crimes_hyderabad_police_station.html",
   },
   {
+    slug: "detective",
     title: "Detective Department",
     blurb: "Investigation & intelligence",
     icon: Search,
@@ -302,6 +307,7 @@ export const wings: {
     href: "https://hyderabadpolice.gov.in/detective_department.html",
   },
   {
+    slug: "she-team-bharosa",
     title: "She Team & Bharosa",
     blurb: "Women & child protection",
     icon: Users,
@@ -309,6 +315,7 @@ export const wings: {
     href: "https://hyderabadpolice.gov.in/SheTeam&Bharosa.html",
   },
   {
+    slug: "other-wings",
     title: "Other Wings",
     blurb: "City Armed Reserve, Task Force, Special Branch, IT Cell & H-NEW",
     icon: Building2,
