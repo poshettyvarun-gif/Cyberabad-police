@@ -1,22 +1,17 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowUpRight, Pause, Play } from "lucide-react";
-import { toast } from "sonner";
 import { Reveal, SectionHeading } from "./Reveal";
 import {
+  aboutFacts,
   citizenServices,
   emergencyContacts,
   galleryPhotos,
   highlightCards,
+  newsArchiveUrl,
   newsItems,
   wings,
 } from "../data/site";
-
-/** Cards on this site are placeholders — clicking one announces it as pending. */
-function comingSoon(title: string) {
-  toast(`${title} — under development`, {
-    description: "This section will be added soon.",
-  });
-}
 
 export function EmergencyContacts() {
   return (
@@ -125,15 +120,13 @@ export function CitizenServices() {
                 return (
                   <a
                     key={service.label}
-                    href="#services"
+                    href={service.href}
+                    target={service.external ? "_blank" : undefined}
+                    rel={service.external ? "noopener noreferrer" : undefined}
                     onMouseEnter={() => setHovered(index)}
                     onMouseLeave={() => setHovered(null)}
                     onFocus={() => setHovered(index)}
                     onBlur={() => setHovered(null)}
-                    onClick={(event) => {
-                      event.preventDefault();
-                      comingSoon(service.label);
-                    }}
                     className={`group relative flex min-h-[120px] min-w-0 flex-col justify-between overflow-hidden rounded-xl border bg-card p-4 text-foreground transition-all duration-500 ease-out ${
                       isHovered
                         ? "z-20 -translate-y-1.5 scale-[1.02] border-accent/50 shadow-lift"
@@ -264,9 +257,10 @@ export function Wings() {
                 delay={(index % 3) * 80}
                 className="relative z-0 h-full hover:z-30"
               >
-                <button
-                  type="button"
-                  onClick={() => comingSoon(wing.title)}
+                <a
+                  href={wing.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group relative flex min-h-[130px] h-full w-full flex-col overflow-hidden rounded-xl border border-border bg-card p-4 text-left shadow-soft transition-all duration-500 ease-out hover:-translate-y-1.5 hover:scale-[1.015] hover:border-accent/50 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
                   <img
@@ -303,7 +297,7 @@ export function Wings() {
                       <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                     </span>
                   </span>
-                </button>
+                </a>
               </Reveal>
             );
           })}
@@ -481,6 +475,46 @@ export function CommissionerNote() {
   );
 }
 
+/**
+ * Institutional facts as published on the official site's About page — no
+ * mission/vision statement, history, or personnel-strength figure is
+ * published there, so none appears here either (`aboutFacts` only carries
+ * what's real). Mirrors the `heroStats` `dl/dt/dd` pattern in `Hero.tsx` for
+ * visual consistency.
+ */
+export function AboutFacts() {
+  return (
+    <section
+      id="about-facts"
+      className="border-b border-border bg-secondary/50 py-14 sm:py-16"
+    >
+      <div className="mx-auto max-w-7xl px-5">
+        <Reveal>
+          <p className="text-xs font-medium tracking-[0.32em] text-accent">JURISDICTION</p>
+          <h2 className="mt-3 font-display text-2xl font-semibold text-foreground sm:text-3xl">
+            Hyderabad City Police at a glance
+          </h2>
+        </Reveal>
+
+        <Reveal delay={80}>
+          <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-3 lg:grid-cols-6">
+            {aboutFacts.map((fact) => (
+              <div key={fact.label}>
+                <dt className="font-display text-2xl font-semibold text-foreground">
+                  {fact.value}
+                </dt>
+                <dd className="mt-1 text-xs leading-snug tracking-wide text-muted-foreground">
+                  {fact.label}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /** Autoplay is blocked on most browsers without a user gesture anyway, so the
  *  video simply waits for the visitor to press play — no muted-autoplay hack
  *  needed, and it matches the "play/stop button" the section calls for. */
@@ -650,9 +684,10 @@ export function News() {
       <div className="mt-10 grid gap-5 lg:grid-cols-3">
         {newsItems.map((item, index) => (
           <Reveal key={item.title} delay={index * 90}>
-            <button
-              type="button"
-              onClick={() => comingSoon(item.title)}
+            <a
+              href={newsArchiveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group relative block h-full w-full overflow-hidden rounded-2xl border border-border bg-card p-6 text-left shadow-soft transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/50 hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <img
@@ -682,7 +717,7 @@ export function News() {
                 Read more
                 <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </span>
-            </button>
+            </a>
           </Reveal>
         ))}
       </div>
@@ -697,39 +732,54 @@ export function Highlights() {
       className="border-t border-border bg-secondary/50 py-20"
     >
       <div className="mx-auto max-w-7xl px-5">
-        <div className="grid gap-5 md:grid-cols-3">
+        <SectionHeading
+          eyebrow="DISCOVER"
+          title="Explore more"
+          description="Awareness programmes, and the fastest way to find your nearest police station."
+        />
+
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
           {highlightCards.map((card, index) => {
             const Icon = card.icon;
+            const className =
+              "group relative flex h-full w-full flex-col overflow-hidden rounded-3xl surface-navy p-8 text-left shadow-soft transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky";
+            const content = (
+              <>
+                <span className="pointer-events-none absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-primary-foreground/10 transition-transform duration-500 group-hover:scale-125" />
+
+                <span className="relative grid h-12 w-12 place-items-center rounded-xl border border-sky/20 bg-sky/5 text-sky transition-all duration-500 group-hover:scale-110 group-hover:border-sky/50 group-hover:bg-sky/10">
+                  <Icon className="h-7 w-7 transition-transform duration-500 group-hover:rotate-3" />
+                </span>
+
+                <h3 className="relative mt-6 text-xl font-semibold text-primary-foreground transition-colors duration-300 group-hover:text-sky">
+                  {card.title}
+                </h3>
+
+                <p className="relative mt-3 text-sm leading-relaxed text-primary-foreground/75">
+                  {card.blurb}
+                </p>
+
+                <span className="relative mt-6 inline-flex items-center gap-2 text-sm font-semibold text-sky">
+                  Explore
+
+                  <span className="grid h-7 w-7 place-items-center rounded-full border border-sky/20 bg-sky/5 transition-all duration-300 group-hover:border-sky/50 group-hover:bg-sky/10">
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </span>
+                </span>
+              </>
+            );
 
             return (
               <Reveal key={card.title} delay={index * 90}>
-                <button
-                  type="button"
-                  onClick={() => comingSoon(card.title)}
-                  className="group relative flex h-full w-full flex-col overflow-hidden rounded-3xl surface-navy p-8 text-left shadow-soft transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky"
-                >
-                  <span className="pointer-events-none absolute -bottom-10 -right-10 h-40 w-40 rounded-full bg-primary-foreground/10 transition-transform duration-500 group-hover:scale-125" />
-
-                  <span className="relative grid h-12 w-12 place-items-center rounded-xl border border-sky/20 bg-sky/5 text-sky transition-all duration-500 group-hover:scale-110 group-hover:border-sky/50 group-hover:bg-sky/10">
-                    <Icon className="h-7 w-7 transition-transform duration-500 group-hover:rotate-3" />
-                  </span>
-
-                  <h3 className="relative mt-6 text-xl font-semibold text-primary-foreground transition-colors duration-300 group-hover:text-sky">
-                    {card.title}
-                  </h3>
-
-                  <p className="relative mt-3 text-sm leading-relaxed text-primary-foreground/75">
-                    {card.blurb}
-                  </p>
-
-                  <span className="relative mt-6 inline-flex items-center gap-2 text-sm font-semibold text-sky">
-                    Explore
-
-                    <span className="grid h-7 w-7 place-items-center rounded-full border border-sky/20 bg-sky/5 transition-all duration-300 group-hover:border-sky/50 group-hover:bg-sky/10">
-                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </span>
-                  </span>
-                </button>
+                {card.to ? (
+                  <Link to={card.to} className={className}>
+                    {content}
+                  </Link>
+                ) : (
+                  <a href={card.href} target="_blank" rel="noopener noreferrer" className={className}>
+                    {content}
+                  </a>
+                )}
               </Reveal>
             );
           })}

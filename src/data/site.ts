@@ -45,13 +45,13 @@ export const navItems: NavItem[] = [
     href: "#about",
     children: [
       { label: "About Us", href: "#about" },
-      { label: "History", href: "#about" },
       { label: "Commissioners", href: "#about" },
+      { label: "Officer Directory", href: "/contact-directory" },
     ],
   },
   { label: "Services", href: "#services" },
   { label: "Wings", href: "#wings" },
-  { label: "Know Your PS", href: "#stations" },
+  { label: "Know Your PS", href: "/police-stations" },
   { label: "Latest News", href: "#news" },
   {
     label: "Internship",
@@ -117,11 +117,17 @@ export const cityAlerts: CityAlert[] = [
   },
 ];
 
-export const tickerItems = [
-  "Annual Report 2025 is now available for download",
-  "Arrive Alive road safety programme launched on 14-11-2025",
-  "CEIR: block and trace your lost or stolen mobile online",
-  "Cyber fraud? Report within the golden hour on 1930",
+export const tickerItems: { text: string; href?: string }[] = [
+  {
+    text: "Annual Report 2025 is now available for download",
+    href: "https://hyderabadpolice.gov.in/assets/annual-reports/ANNUAL-REPORT-25.pdf",
+  },
+  { text: "Arrive Alive road safety programme launched on 14-11-2025" },
+  {
+    text: "CEIR: block and trace your lost or stolen mobile online",
+    href: "https://www.ceir.gov.in/Home/index.jsp",
+  },
+  { text: "Cyber fraud? Report within the golden hour on 1930" },
 ];
 
 export type EmergencyContact = {
@@ -149,7 +155,7 @@ export const emergencyContacts: EmergencyContact[] = [
   { label: "Child Care Helpline", value: "1098", tel: "1098", icon: Baby },
   {
     label: "Cyber Crime Helpline",
-    value: "1930 / 040-27852412",
+    value: "1930 / 040-27852412 / 8712665171",
     tel: "1930",
     icon: Bug,
   },
@@ -167,19 +173,97 @@ export const citizenServices: {
   /** Tile backdrop. Each is washed pale blue with its subject on the right,
    *  so the tile's icon and label stay clear on the left. */
   image: string;
+  /** Real destination on the official site / its citizen portals. */
+  href: string;
+  external: boolean;
 }[] = [
-  { label: "Lodge a Petition", icon: FileText, image: "/assets/services/lodge-petition.jpg" },
-  { label: "Missing Persons", icon: UserSearch, image: "/assets/services/missing-persons.jpg" },
-  { label: "View / Print FIR", icon: ClipboardList, image: "/assets/services/view-print-fir.jpg" },
-  { label: "Arrest Particulars", icon: Fingerprint, image: "/assets/services/arrest-particulars.jpg" },
-  { label: "Unclaimed Vehicles", icon: Car, image: "/assets/services/unclaimed-vehicles.jpg" },
-  { label: "Passport Verification", icon: Plane, image: "/assets/services/passport-verification.jpg" },
-  { label: "Permissions / NOC", icon: BadgeCheck, image: "/assets/services/permissions-noc.jpg" },
-  { label: "C-MITRA", icon: Headphones, image: "/assets/services/c-mitra.jpg" },
-  { label: "Police Clearance", icon: ScrollText, image: "/assets/services/police-clearance.jpg" },
-  { label: "E-Challan Details", icon: ReceiptText, image: "/assets/services/e-challan.jpg" },
-  { label: "Child & Women Cell", icon: HeartHandshake, image: "/assets/services/child-women-cell.jpg" },
-  { label: "Other Services", icon: LayoutGrid, image: "/assets/services/other-services.jpg" },
+  {
+    label: "Lodge a Petition",
+    icon: FileText,
+    image: "/assets/services/lodge-petition.jpg",
+    href: "https://tspolice.gov.in/jsp/citizenLogin?method=viewLoginForm",
+    external: true,
+  },
+  {
+    label: "Missing Persons",
+    icon: UserSearch,
+    image: "/assets/services/missing-persons.jpg",
+    href: "https://tspolice.gov.in/jsp/citizenLogin?method=viewLoginForm",
+    external: true,
+  },
+  {
+    label: "View / Print FIR",
+    icon: ClipboardList,
+    image: "/assets/services/view-print-fir.jpg",
+    href: "https://tspolice.gov.in/jsp/citizenLogin?method=viewLoginForm",
+    external: true,
+  },
+  {
+    label: "Arrest Particulars",
+    icon: Fingerprint,
+    image: "/assets/services/arrest-particulars.jpg",
+    href: "https://tspolice.gov.in/jsp/citizenLogin?method=viewLoginForm",
+    external: true,
+  },
+  {
+    label: "Unclaimed Vehicles",
+    icon: Car,
+    image: "/assets/services/unclaimed-vehicles.jpg",
+    href: "https://hyderabadpolice.gov.in/unclaimed_veh.html",
+    external: true,
+  },
+  {
+    label: "Passport Verification",
+    icon: Plane,
+    image: "/assets/services/passport-verification.jpg",
+    href: "https://hyderabadpolice.gov.in/Passport_Verification.html",
+    external: true,
+  },
+  {
+    label: "Permissions / NOC",
+    icon: BadgeCheck,
+    image: "/assets/services/permissions-noc.jpg",
+    href: "https://hyderabadpolice.gov.in/permission.html",
+    external: true,
+  },
+  {
+    label: "C-MITRA",
+    icon: Headphones,
+    image: "/assets/services/c-mitra.jpg",
+    href: "https://hyderabadpolice.gov.in/C-Mitra.html",
+    external: true,
+  },
+  {
+    label: "Police Clearance",
+    icon: ScrollText,
+    image: "/assets/services/police-clearance.jpg",
+    href: "https://pvc.tspolice.gov.in/policeverificationandclearence",
+    external: true,
+  },
+  {
+    label: "E-Challan Details",
+    icon: ReceiptText,
+    image: "/assets/services/e-challan.jpg",
+    href: "https://echallan.tspolice.gov.in/publicview/",
+    external: true,
+  },
+  {
+    label: "Child & Women Cell",
+    icon: HeartHandshake,
+    image: "/assets/services/child-women-cell.jpg",
+    href: "https://hyderabadpolice.gov.in/child_women_protection.html",
+    external: true,
+  },
+  {
+    label: "Other Services",
+    icon: LayoutGrid,
+    image: "/assets/services/other-services.jpg",
+    // Our own catch-all bucket — no single official page maps to it, so this
+    // falls back to the official site's own services index rather than a
+    // fabricated destination.
+    href: "https://hyderabadpolice.gov.in/index.html#servcs",
+    external: true,
+  },
 ];
 
 export const wings: {
@@ -189,42 +273,50 @@ export const wings: {
   /** Card backdrop. Each is washed pale blue with its subject on the right,
    *  so the card's copy stays clear on the left. */
   image: string;
+  /** Real destination on the official site. */
+  href: string;
 }[] = [
   {
     title: "Law and Order",
     blurb: "Peace & public order across zones",
     icon: Scale,
     image: "/assets/wings/law-and-order.jpg",
+    href: "https://hyderabadpolice.gov.in/law_order.html",
   },
   {
     title: "Traffic Wing",
     blurb: "Flow, enforcement & road safety",
     icon: TrafficCone,
     image: "/assets/wings/traffic.jpg",
+    href: "https://hyderabadpolice.gov.in/traffic_branch.html",
   },
   {
     title: "Cyber Crime",
     blurb: "Online fraud & digital forensics",
     icon: Laptop,
     image: "/assets/wings/cyber-crime.jpg",
+    href: "https://hyderabadpolice.gov.in/cyber_crimes_hyderabad_police_station.html",
   },
   {
     title: "Detective Department",
     blurb: "Investigation & intelligence",
     icon: Search,
     image: "/assets/wings/detective.jpg",
+    href: "https://hyderabadpolice.gov.in/detective_department.html",
   },
   {
     title: "She Team & Bharosa",
     blurb: "Women & child protection",
     icon: Users,
     image: "/assets/wings/she-team-bharosa.jpg",
+    href: "https://hyderabadpolice.gov.in/SheTeam&Bharosa.html",
   },
   {
     title: "Other Wings",
-    blurb: "CAR, SB, armed reserve & more",
+    blurb: "City Armed Reserve, Task Force, Special Branch, IT Cell & H-NEW",
     icon: Building2,
     image: "/assets/wings/other-wings.jpg",
+    href: "https://hyderabadpolice.gov.in/index.html#wingscrl",
   },
 ];
 
@@ -278,33 +370,114 @@ export const newsItems: {
   },
 ];
 
-export const highlightCards: { title: string; blurb: string; icon: LucideIcon }[] = [
+/** No verified per-article URL exists for any of these — all three point at
+ *  the official site's real press-releases anchor rather than an invented
+ *  permalink. */
+export const newsArchiveUrl = "https://hyderabadpolice.gov.in/index.html#PressReleases";
+
+export type HighlightCard = {
+  title: string;
+  blurb: string;
+  icon: LucideIcon;
+} & ({ to: string; href?: never } | { href: string; to?: never });
+
+export const highlightCards: HighlightCard[] = [
   {
     title: "Women Awareness",
     blurb: "Empowering women and communities through safety education and outreach.",
     icon: HeartHandshake,
+    href: "https://hyderabadpolice.gov.in/SheTeam&Bharosa.html",
   },
   {
     title: "Cyber Awareness",
     blurb: "Recognise online fraud. Act fast. Report cyber crime immediately.",
     icon: Laptop,
+    href: "https://hyderabadpolice.gov.in/cyber_crimes_hyderabad_police_station.html",
   },
   {
     title: "Know Your Police Station",
-    blurb: "Find your local police station, jurisdiction and contact details instantly.",
+    blurb: "Search all 72 stations across 7 zones by name or jurisdiction.",
     icon: MapPin,
+    to: "/police-stations",
   },
 ];
 
-export const footerColumns = [
+/** Institutional facts as published on the official site's About page. No
+ *  mission/vision statement, history, or personnel-strength figure is
+ *  published there — omitted here rather than invented. */
+export const aboutFacts: { value: string; label: string }[] = [
+  { value: "~650 km²", label: "Jurisdiction area" },
+  { value: "~68 Lakh", label: "Population served" },
+  { value: "7", label: "Law & order zones" },
+  { value: "28", label: "Divisions" },
+  { value: "72", label: "Police stations" },
+  { value: "7", label: "Women police stations" },
+  { value: "31", label: "Traffic police stations" },
+  { value: "3", label: "Traffic zones" },
+  { value: "7", label: "Traffic divisions" },
+  { value: "15", label: "Assembly constituencies" },
+  { value: "2", label: "Members of Parliament" },
+];
+
+export type FooterLink = { label: string; href: string; external?: boolean };
+
+export const footerColumns: { heading: string; links: FooterLink[] }[] = [
   {
     heading: "SERVICES",
-    links: ["Lodge a Petition", "View / Print FIR", "E-Challan", "Passport Verification"],
-    href: "#services",
+    links: [
+      {
+        label: "Lodge a Petition",
+        href: "https://tspolice.gov.in/jsp/citizenLogin?method=viewLoginForm",
+        external: true,
+      },
+      {
+        label: "View / Print FIR",
+        href: "https://tspolice.gov.in/jsp/citizenLogin?method=viewLoginForm",
+        external: true,
+      },
+      {
+        label: "E-Challan",
+        href: "https://echallan.tspolice.gov.in/publicview/",
+        external: true,
+      },
+      {
+        label: "Passport Verification",
+        href: "https://hyderabadpolice.gov.in/Passport_Verification.html",
+        external: true,
+      },
+    ],
   },
   {
     heading: "WINGS",
-    links: ["Law and Order", "Traffic Wing", "Cyber Crime", "She Team & Bharosa"],
-    href: "#wings",
+    links: [
+      { label: "Law and Order", href: "https://hyderabadpolice.gov.in/law_order.html", external: true },
+      { label: "Traffic Wing", href: "https://hyderabadpolice.gov.in/traffic_branch.html", external: true },
+      {
+        label: "Cyber Crime",
+        href: "https://hyderabadpolice.gov.in/cyber_crimes_hyderabad_police_station.html",
+        external: true,
+      },
+      {
+        label: "She Team & Bharosa",
+        href: "https://hyderabadpolice.gov.in/SheTeam&Bharosa.html",
+        external: true,
+      },
+    ],
+  },
+  {
+    heading: "DOWNLOADS",
+    links: [
+      {
+        label: "Annual Report 2025",
+        href: "https://hyderabadpolice.gov.in/assets/annual-reports/ANNUAL-REPORT-25.pdf",
+        external: true,
+      },
+      { label: "Police Stations", href: "/police-stations" },
+      { label: "Officer Directory", href: "/contact-directory" },
+      { label: "Acts & Rules", href: "https://hyderabadpolice.gov.in/acts_rules.html", external: true },
+      { label: "RTI Act", href: "https://hyderabadpolice.gov.in/rti_act.html", external: true },
+      { label: "Meeseva Services", href: "https://hyderabadpolice.gov.in/Meeseva.html", external: true },
+      { label: "CEIR", href: "https://www.ceir.gov.in/Home/index.jsp", external: true },
+    ],
   },
 ];

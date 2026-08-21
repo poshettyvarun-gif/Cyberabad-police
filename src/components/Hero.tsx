@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { ArrowUpRight, MapPin } from "lucide-react";
 import { cityAlerts, heroStats, tickerItems } from "../data/site";
 import { CctvMesh } from "./CctvMesh";
@@ -92,13 +93,13 @@ export function Hero() {
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               <span className="pointer-events-none absolute inset-y-0 w-1/3 bg-background/40 animate-sheen" />
             </a>
-            <a
-              href="#stations"
+            <Link
+              to="/police-stations"
               className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/30 px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-foreground/10"
             >
               <MapPin className="h-4 w-4" />
               View all police stations
-            </a>
+            </Link>
           </div>
 
           <dl
@@ -176,12 +177,25 @@ export function Hero() {
 
       <div className="relative border-t border-primary-foreground/15 bg-navy-deep/60 py-3">
         <div className="flex w-max animate-marquee gap-12 whitespace-nowrap px-6 text-sm text-primary-foreground/80">
-          {[...tickerItems, ...tickerItems].map((item, index) => (
-            <span key={index} className="flex items-center gap-3">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky" />
-              {item}
-            </span>
-          ))}
+          {[...tickerItems, ...tickerItems].map((item, index) =>
+            item.href ? (
+              <a
+                key={index}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 underline decoration-sky/40 underline-offset-4 transition-colors hover:text-primary-foreground"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-sky" />
+                {item.text}
+              </a>
+            ) : (
+              <span key={index} className="flex items-center gap-3">
+                <span className="h-1.5 w-1.5 rounded-full bg-sky" />
+                {item.text}
+              </span>
+            ),
+          )}
         </div>
       </div>
     </section>

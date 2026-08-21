@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { footerColumns } from "../data/site";
+import { SocialLinks } from "./SocialLinks";
 
 /**
  * Small patrol car that cruises the footer's bottom rule, left to right, on
@@ -63,9 +65,12 @@ export function Footer() {
             className="h-16 w-16 object-contain"
           />
           <p className="mt-4 text-sm leading-relaxed text-primary-foreground/70">
-            Hyderabad City Police Commissionerate, Integrated Command &amp; Control Centre,
-            Banjara Hills, Hyderabad — 500034.
+            O/o Commissioner of Police, Tower-A, ICCC Building, Road No 12, Banjara Hills,
+            Hyderabad.
           </p>
+          <div className="mt-5">
+            <SocialLinks />
+          </div>
         </div>
 
         {footerColumns.map((column) => (
@@ -74,16 +79,26 @@ export function Footer() {
               {column.heading}
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm text-primary-foreground/75">
-              {column.links.map((link) => (
-                <li key={link}>
-                  <a
-                    href={column.href}
-                    className="transition-colors hover:text-primary-foreground"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
+              {column.links.map((link) =>
+                link.external ? (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors hover:text-primary-foreground"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ) : (
+                  <li key={link.label}>
+                    <Link to={link.href} className="transition-colors hover:text-primary-foreground">
+                      {link.label}
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
         ))}
@@ -96,12 +111,16 @@ export function Footer() {
               100 / 112
             </li>
             <li className="flex items-center gap-2">
+              <Phone className="h-4 w-4 text-sky" />
+              040-23487322
+            </li>
+            <li className="flex items-center gap-2">
               <Mail className="h-4 w-4 text-sky" />
-              cp@hyderabadpolice.gov.in
+              web-pol-hyd@tspolice.gov.in
             </li>
             <li className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-sky" />
-              Banjara Hills, Hyderabad
+              Tower-A, ICCC Building, Banjara Hills, Hyderabad
             </li>
           </ul>
         </div>

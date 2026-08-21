@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 import { Header } from "./components/Header";
-import { Hero } from "./components/Hero";
 import { Footer } from "./components/Footer";
 import { PatrolLine } from "./components/PatrolLine";
+import { ScrollToHash } from "./components/ScrollToHash";
 import { OpeningSequence, shouldPlayIntro } from "./components/OpeningSequence";
-import {
-  CitizenServices,
-  CommissionerNote,
-  EmergencyContacts,
-  Gallery,
-  Highlights,
-  News,
-  Wings,
-} from "./components/Sections";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+
+// The two directory pages carry ~100 data records with no reason to be in
+// the initial `/` bundle — code-split so visiting the homepage never pays
+// for them.
+const PoliceStations = lazy(() => import("./pages/PoliceStations"));
+const ContactDirectory = lazy(() => import("./pages/ContactDirectory"));
 
 export default function App() {
   /* The whole page fades up from transparent once React has mounted. */
@@ -33,14 +33,15 @@ export default function App() {
           }`}
         >
           <Header />
-          <Hero />
-          <CitizenServices />
-          <Wings />
-          <EmergencyContacts />
-          <CommissionerNote />
-          <Gallery />
-          <News />
-          <Highlights />
+          <ScrollToHash />
+          <Suspense fallback={null}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/police-stations" element={<PoliceStations />} />
+              <Route path="/contact-directory" element={<ContactDirectory />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
           <Footer />
         </div>
       </div>
